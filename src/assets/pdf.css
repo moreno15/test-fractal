@@ -1,0 +1,56 @@
+ h4,
+ h2,
+ label {
+     font-family: "Roboto" !important;
+     font-size: 12px !important;
+     font-weight: bold !important;
+     color: #000 !important;
+     text-transform: uppercase;
+ }
+ 
+ p {
+     font-family: "Roboto";
+     /*listarHorarioGrupo*/
+     font-size: 12px !important;
+     margin: 0px !important;
+     text-transform: uppercase !important;
+ }
+ 
+ span,
+ input {
+     font-family: "Roboto" !important;
+     border: none !important;
+     font-size: 12px !important;
+     text-transform: uppercase !important;
+ }
+ 
+ img {
+     margin: auto !important;
+ }
+ 
+ img,
+ p,
+ h2,
+ h4,
+ label {
+     display: block !important;
+ }
+ 
+ .prueba {
+     width: 320px !important;
+     height: 7cm !important;
+     /*border: 1px solid !important;*/
+ }
+ /*RECETA*/
+ 
+ .onNotprint {
+     display: none !important;
+ }
+ 
+ .onPrint {
+     display: block !important;
+ }
+ 
+ .cabecera {
+     background-color: royalblue !important;
+ }

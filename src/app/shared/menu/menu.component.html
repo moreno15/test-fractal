@@ -1,0 +1,488 @@
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar elevation-4 sidebar-light-info">
+    <!-- Brand Logo -->
+    <a [routerLink]="['/pagina/inicio']" class="brand-link navbar-info">
+        <img src="assets/img/logo2.jpg" alt="logo" class="brand-image img-circle elevation-3" style="opacity: 0.8" />
+        <span class="brand-text font-weight-light" style="color: #fff">Blaze</span
+    >
+  </a>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar user panel (optional) -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image">
+        <img
+          src="assets/dist/img/default-user.png"
+          class="img-circle elevation-2"
+          alt="User Image"
+        />
+      </div>
+      <div class="info">
+        <a class="d-block">{{ nombre_user }}</a>
+      </div>
+    </div>
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul
+        class="nav nav-pills nav-sidebar flex-column"
+        data-widget="treeview"
+        role="menu"
+        data-accordion="false"
+      >
+        <li class="nav-item">
+          <a
+            [routerLink]="['/pagina/inicio']"
+            routerLinkActive="active"
+            class="nav-link"
+          >
+            <i class="nav-icon fa fa-users"></i>
+            <p>Dashboard</p>
+          </a>
+        </li>
+        <li
+          class="nav-item"
+          *ngIf="
+            tipo_user == 'ADMINISTRADOR' ||
+            tipo_user == 'ADMISION' ||
+            tipo_user == 'MEDICO' ||
+            tipo_user == 'TRIAJE'
+          "
+        >
+          <a
+            [routerLink]="['/pagina/paciente']"
+            routerLinkActive="active"
+            class="nav-link"
+          >
+            <i class="nav-icon fa fa-users"></i>
+            <p>Paciente</p>
+          </a>
+        </li>
+        <li
+          class="nav-item"
+          *ngIf="tipo_user == 'ADMINISTRADOR' || tipo_user == 'ADMISION'"
+        >
+          <a href="#" class="nav-link menu-open">
+            <i class="nav-icon fas fa-calendar-check"></i>
+            <p>
+              Gestion de citas
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview ml-2">
+            <li class="nav-item">
+              <a [routerLink]="['/pagina/cita']" class="nav-link active">
+                <i class="nav-icon fa fa-edit"></i>
+                <p>Resgitrar citas</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a [routerLink]="['/pagina/listarcita']" class="nav-link">
+                <i class="nav-icon fa fa-table"></i>
+                <p>Listar cita</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li
+          class="nav-item"
+          *ngIf="tipo_user == 'ADMINISTRADOR' || tipo_user == 'TRIAJE'"
+        >
+          <a href="#" class="nav-link menu-open">
+            <i class="nav-icon fa fa-heartbeat"></i>
+            <p>
+              Triaje
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview ml-2">
+            <li class="nav-item">
+              <a [routerLink]="['/pagina/triaje']" class="nav-link active">
+                <i class="nav-icon fa fa-edit"></i>
+                <p>Pacientes por triar</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a [routerLink]="['/pagina/editar-triaje']" class="nav-link">
+                <i class="nav-icon fa fa-table"></i>
+                <p>Pacientes Triados</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li
+          class="nav-item"
+          *ngIf="tipo_user == 'ADMINISTRADOR' || tipo_user == 'MEDICO'"
+        >
+          <a
+            [routerLink]="['/pagina/consulta']"
+            class="nav-link"
+            routerLinkActive="active"
+          >
+            <i class="nav-icon fa fa-stethoscope"></i>
+            <p>Consulta</p>
+          </a>
+        </li>
+        <li
+          class="nav-item"
+          *ngIf="tipo_user == 'ADMINISTRADOR' || tipo_user == 'LABORATORIO' || tipo_user == 'ECOGRAFIA'
+          || tipo_user == 'ADMINISTRADOR'  || tipo_user == 'ADMISION'  || tipo_user == 'RESONANCIA' || tipo_user == 'RAYOS' || tipo_user == 'TOPICO'   || tipo_user == 'TRIAJE'"
+        >
+
+          <a
+            [routerLink]="['/pagina/laboratorio']"
+            class="nav-link"
+            routerLinkActive="active"
+          >
+            <i class="nav-icon fa">PR</i>
+            <p>Procedimiento</p>
+          </a>
+        </li>
+
+        <li
+          class="nav-item"
+          *ngIf="tipo_user == 'ADMINISTRADOR' || tipo_user == 'ADMISION'"
+        >
+          <a href="#" class="nav-link" routerLinkActive="active">
+            <i class="nav-icon fa fa-money">AD</i>
+            <p>
+              Caja
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview ml-2">
+            <li class="nav-item">
+              <a
+                [routerLink]="['/pagina/caja']"
+                class="nav-link"
+                routerLinkActive="active"
+              >
+                <i class="nav-icon fas fa-key"></i>
+                <p>Apertura Caja</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['/pagina/cobrar-cita']"
+                class="nav-link"
+                routerLinkActive="active"
+              >
+                <i class="nav-icon fas fa-dollar-sign"></i>
+                <p>Pagos</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['/pagina/venta-servicio']"
+                class="nav-link"
+                routerLinkActive="active"
+              >
+                <i class="nav-icon fas fa-dollar-sign"></i>
+                <p>Venta</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['/pagina/listarventa']"
+                class="nav-link"
+                routerLinkActive="active"
+              >
+                <i class="nav-icon fas fa-list"></i>
+                <p>Listar venta</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li
+          class="nav-item"
+          *ngIf="tipo_user == 'ADMINISTRADOR' || tipo_user == 'ADMISION'"
+        >
+          <a href="#" class="nav-link" routerLinkActive="active">
+            <i class="nav-icon fas">MO</i>
+            <p>
+              Movimiento
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview ml-2">
+            <li class="nav-item">
+              <a
+                [routerLink]="['/pagina/movimiento-caja']"
+                class="nav-link"
+                routerLinkActive="active"
+              >
+                <i class="nav-icon fas fa-circle"></i>
+                <p>Flujo caja</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['/pagina/kardex']"
+                class="nav-link"
+                routerLinkActive="active"
+              >
+                <i class="nav-icon fas fa-circle"></i>
+                <p>Kardex</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li
+          class="nav-item"
+          *ngIf="tipo_user == 'ADMINISTRADOR' "
+        >
+          <a href="#" class="nav-link" routerLinkActive="active">
+            <i class="nav-icon fas fa-edit"></i>
+            <p>
+              Inventario
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview ml-2">
+            <li class="nav-item" *ngIf="tipo_user == 'ADMINISTRADOR' " >
+              <a
+                [routerLink]="['/pagina/categoria']"
+                class="nav-link"
+                routerLinkActive="active"
+              >
+              <i class="nav-icon fa fa-money">CA</i>
+                <p>Categorias</p>
+              </a>
+            </li>
+            <li class="nav-item" *ngIf="tipo_user == 'ADMINISTRADOR' " >
+              <a
+                [routerLink]="['/pagina/marca']"
+                class="nav-link"
+                routerLinkActive="active"
+              >
+              <i class="nav-icon fa fa-money">MA</i>
+                <p>Marca</p>
+              </a>
+            </li>
+            <li class="nav-item" *ngIf="tipo_user == 'ADMINISTRADOR' " >
+              <a
+                [routerLink]="['/pagina/medida']"
+                class="nav-link"
+                routerLinkActive="active"
+              >
+              <i class="nav-icon fa fa-money">CA</i>
+                <p>Medida</p>
+              </a>
+            </li>
+            <li class="nav-item" *ngIf="tipo_user == 'ADMINISTRADOR' " >
+              <a
+                [routerLink]="['/pagina/proveedor']"
+                class="nav-link"
+                routerLinkActive="active"
+              >
+              <i class="nav-icon fa fa-money">PR</i>
+                <p>Proveedor</p>
+              </a>
+            </li>
+            <li class="nav-item" *ngIf="tipo_user == 'ADMINISTRADOR' " >
+              <a
+                [routerLink]="['/pagina/articulo']"
+                class="nav-link"
+                routerLinkActive="active"
+              >
+              <i class="nav-icon fa fa-money">AR</i>
+                <p>Articulos</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['/pagina/kardex']"
+                class="nav-link"
+                routerLinkActive="active"
+              >
+                <i class="nav-icon fas fa-circle"></i>
+                <p>Kardex</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item" *ngIf="tipo_user == 'ADMINISTRADOR'||tipo_user == 'ADMISION'" >
+          <a
+            [routerLink]="['/pagina/reporte']"
+            class="nav-link"
+            routerLinkActive="active"
+          >
+            <i class="nav-icon fa fas fa-chart-pie"></i>
+            <p>Reportes</p>
+          </a>
+        </li>
+
+
+
+        <li
+          class="nav-item"
+          *ngIf="tipo_user == 'ADMINISTRADOR' || tipo_user == 'FARMACIA'"
+        >
+          <a href="#" class="nav-link" routerLinkActive="active">
+            <i class="nav-icon fas fa-layer-group"></i>
+            <p>
+              Farmacia
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview ml-2">
+            <li
+            class="nav-item"
+            *ngIf="
+              tipo_user == 'ADMINISTRADOR' ||
+              tipo_user == 'FARMACIA'
+            "
+          >
+            <a href="#" class="nav-link" routerLinkActive="active">
+              <i class="nav-icon fas fa-truck"></i>
+              <p>
+                Compra
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview ml-2">
+              <li class="nav-item">
+                <a
+                  [routerLink]="['/pagina/compra']"
+                  class="nav-link"
+                  routerLinkActive="active"
+                >
+                  <i class="nav-icon fas fa-shopping-cart"></i>
+                  <p>Ingreso</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                  [routerLink]="['/pagina/listar-compra']"
+                  class="nav-link"
+                  routerLinkActive="active"
+                >
+                  <i class="nav-icon fas fa-list"></i>
+                  <p>Litar compra</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+            <li
+              class="nav-item"
+            >
+              <a href="#" class="nav-link" routerLinkActive="active">
+                <i class="nav-icon fa fa-money">AD</i>
+                <p>
+                  Caja
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview ml-2">
+                <li class="nav-item">
+                  <a
+                    [routerLink]="['/pagina/caja']"
+                    class="nav-link"
+                    routerLinkActive="active"
+                  >
+                    <i class="nav-icon fas fa-key"></i>
+                    <p>Apertura Caja</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a
+                    [routerLink]="['/pagina/venta']"
+                    class="nav-link"
+                    routerLinkActive="active"
+                  >
+                    <i class="nav-icon fas fa-dollar-sign"></i>
+                    <p>Venta Medicamento</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a
+                    [routerLink]="['/pagina/lista-farmacia']"
+                    class="nav-link"
+                    routerLinkActive="active"
+                  >
+                    <i class="nav-icon fas fa-list"></i>
+                    <p>Listar venta</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+
+            <li
+            class="nav-item"
+          >
+            <a href="#" class="nav-link" routerLinkActive="active">
+              <i class="nav-icon fa fa-money">IN</i>
+              <p>
+                Inventario
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview ml-2">
+              <li class="nav-item">
+                <a
+                  [routerLink]="['/pagina/producto']"
+                  class="nav-link"
+                  routerLinkActive="active"
+                >
+                  <i class="nav-icon fas fa-tags"></i>
+                  <p>Productos</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                  [routerLink]="['/pagina/categoria']"
+                  class="nav-link"
+                  routerLinkActive="active"
+                >
+                  <i class="nav-icon fas fa-layer-group"></i>
+                  <p>Categoria</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                  [routerLink]="['/pagina/marca']"
+                  class="nav-link"
+                  routerLinkActive="active"
+                >
+                  <i class="nav-icon fas fa-calendar-alt"></i>
+                  <p>Marca</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                  [routerLink]="['/pagina/medida']"
+                  class="nav-link"
+                  routerLinkActive="active"
+                >
+                  <i class="nav-icon fas fa-ruler-vertical"></i>
+                  <p>unida medida</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a
+                  [routerLink]="['/pagina/proveedor']"
+                  class="nav-link"
+                  routerLinkActive="active"
+                >
+                  <i class="nav-icon fas fa-truck-moving"></i>
+                  <p>Proveedor</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          </ul>
+        </li>
+
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+</aside>

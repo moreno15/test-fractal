@@ -1,0 +1,195 @@
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Client</h1>
+            </div>
+
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div col-lg-12>
+                            <button type="button" class="btn bg-gradient-indigo btn-flat" (click)="nuevo(f); openModal()">
+                <i class="fa fa-edit"></i>
+
+                new client
+              </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">List Client</h3>
+
+
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body table-responsive">
+                                <table class="table table-hover text-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th (click)="setOrder('id')">Id</th>
+                                            <th>Accion</th>
+                                            <th>Name Client</th>
+                                            <th>Type document</th>
+                                            <th>Number document</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let client of Client">
+                                            <td>{{ client.id }}</td>
+                                            <td>
+                                                <a type="button" class="btn btn-danger rounded-circle text-white" (click)="eliminar(client.id)">
+                                                    <i class="fas fa-trash" style="font-size: 12px"></i>
+                                                </a>
+                                                <a type="button" class="btn btn-info rounded-circle text-white" (click)="editar(client); openModal()">
+                                                    <i class="fas fa-edit" style="font-size: 12px"></i>
+                                                </a>
+                                            </td>
+                                            <td>{{ client.name_client }}</td>
+                                            <td>{{ client.type_document }}</td>
+                                            <td>{{ client.number_document }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer" style="background: #fff">
+                                <ul class="pagination pagination-sm m-0 float-right">
+                                    <li class="page-item">
+                                        <a class="page-link" (click)="rewind()" style="cursor: pointer">
+                                            <span class="fa fa-angle-double-left"></span
+                    ></a>
+                  </li>
+                  <li
+                    style="cursor: pointer"
+                    class="page-item"
+                    *ngFor="let p of totalPages; let i = index"
+                  >
+                    <a
+                      class="page-link"
+                      style="cursor: pointer"
+                      (click)="setPage(i)"
+                      [ngClass]="{ 'text-primary': i === page }"
+                    >
+                      {{ i + 1 }}</a
+                    >
+                  </li>
+                  <li class="page-item" style="cursor: pointer">
+                    <a class="page-link" (click)="forward()">
+                      <span class="fa fa-angle-double-right"></span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+    <modal #myModal>
+        <modal-header>
+            <h4 class="modal-title">New Client</h4>
+        </modal-header>
+
+        <modal-content>
+            <form #f="ngForm" (ngSubmit)="saveClient(f)" class="form-horizontal" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="row pt-0 mt-0">
+                        <div class="col-md-12 pt-0 mt-0">
+                            <div class="row">
+                                <label for="" class="col-sm-3 col-form-label">Name <span style="color: red">*</span></label
+                >
+                <div class="col-sm-9">
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      name="nombre"
+                      [(ngModel)]="nombre"
+                      required
+                      class="form-control form-control-sm"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-7">
+                  <label class="col-sm-5 col-form-label" style="float: left"
+                    >Type Document<span style="color: red">*</span></label
+                  >
+                  <div class="col-sm-7" style="float: left">
+                    <select
+                      class="form-control form-control-sm"
+                      name="tipo_documento"
+                      [(ngModel)]="tipo_documento"
+                      (ngModelChange)="selectTipodoc($event)"
+                      required
+                    >
+                      <option value="DNI">DNI</option>
+                      <option value="RUC">RUC</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-5">
+                  <label
+                    for=""
+                    class="col-sm-3 col-form-label"
+                    style="float: left"
+                    >Number Document <span style="color: red">*</span></label
+                  >
+                  <div class="col-sm-9" style="float: left">
+                    <input
+                      type="text"
+                      name="num_documento"
+                      [(ngModel)]="num_documento"
+                      required
+                      class="form-control form-control-sm"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- /.card-footer -->
+            </div>
+            <!-- /.col -->
+          </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-danger" (click)="closeModal()">
+            Cancel
+          </button>
+          <button *ngIf="activar == '1'" type="submit" class="btn btn-success">
+            Save
+          </button>
+          <button *ngIf="activar == '0'" type="submit" class="btn btn-success">
+            Update
+          </button>
+        </div>
+      </form>
+    </modal-content>
+    <modal-footer> </modal-footer>
+  </modal>
+</div>
+<!-- /.content -->

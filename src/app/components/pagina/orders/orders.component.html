@@ -1,0 +1,431 @@
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Oders</h1>
+            </div>
+
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div col-lg-12>
+                            <button type="button" class="btn bg-gradient-indigo btn-flat" (click)="nuevo(f); openModal()">
+                <i class="fa fa-edit"></i>
+
+                Create Order
+              </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">List Orders</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body table-responsive">
+                                <table class="table table-hover text-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th (click)="setOrder('id')">N°</th>
+                                            <th>Accion</th>
+                                            <th>Consumer</th>
+                                            <th>Status</th>
+                                            <th>Date</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let order of orders">
+                                            <td>{{ order.id }}</td>
+                                            <td>
+                                                <a type="button" class="btn btn-danger rounded-circle text-white" (click)="deleteOrder(order.id)">
+                                                    <i class="fas fa-trash" style="font-size: 12px"></i>
+                                                </a>
+                                                <a type="button" class="btn btn-info rounded-circle text-white" (click)="editar(order); openModal()">
+                                                    <i class="fas fa-edit" style="font-size: 12px"></i>
+                                                </a>
+                                            </td>
+                                            <td>{{ order.client?.name_client }}</td>
+                                            <td>{{ order.status_order }}</td>
+                                            <td>{{ order.date_order }}</td>
+                                            <td>{{ order.total }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer" style="background: #fff">
+                                <ul class="pagination pagination-sm m-0 float-right">
+                                    <li class="page-item">
+                                        <a class="page-link" (click)="rewind()" style="cursor: pointer">
+                                            <span class="fa fa-angle-double-left"></span
+                    ></a>
+                  </li>
+                  <li
+                    style="cursor: pointer"
+                    class="page-item"
+                    *ngFor="let p of totalPages; let i = index"
+                  >
+                    <a
+                      class="page-link"
+                      style="cursor: pointer"
+                      (click)="setPage(i)"
+                      [ngClass]="{ 'text-primary': i === page }"
+                    >
+                      {{ i + 1 }}</a
+                    >
+                  </li>
+                  <li class="page-item" style="cursor: pointer">
+                    <a class="page-link" (click)="forward()">
+                      <span class="fa fa-angle-double-right"></span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+    <modal #myModal>
+        <modal-header>
+            <h4 class="modal-title">New Order</h4>
+        </modal-header>
+
+        <modal-content>
+            <form #f="ngForm" (ngSubmit)="saveOrder(f)" class="form-horizontal" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="row pt-0 mt-0">
+                        <div class="col-md-12 pt-0 mt-0">
+                            <div class="row">
+                                <label for="" class="col-sm-3 col-form-label">Client <span style="color: red">*</span></label
+                >
+                <div class="col-sm-9">
+                  <div class="input-group">
+                    <p *ngIf="activar == '0'">{{ client.name_client }}</p>
+                    <select
+                      *ngIf="activar == '1'"
+                      class="form-control form-control-sm"
+                      name="name_client"
+                      [(ngModel)]="name_client"
+                      (ngModelChange)="selectClient($event)"
+                    >
+                      <option [value]="c.id" *ngFor="let c of clients">
+                        {{ c.name_client }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="activar == '0'">
+                <label for="" class="col-sm-3 col-form-label"
+                  >Status <span style="color: red">*</span></label
+                >
+                <div class="col-sm-9">
+                  <div class="input-group">
+                    <p  >{{ order_status }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                  <label class="col-sm-3 col-form-label" style="float: left"
+                    >Product <span style="color: red">*</span></label
+                  >
+                  <div class="col-sm-9" style="float: left">
+                    <select
+                      class="form-control form-control-sm"
+                      name="name_product"
+                      required
+                      [(ngModel)]="name_product"
+                      (ngModelChange)="selectProduct($event)"
+                    >
+                      <option [value]="p.id" *ngFor="let p of products">
+                        {{ p.name + " ($" + p.price + ")" }}
+                      </option>
+                    </select>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-9">
+                  <label class="col-sm-4 col-form-label" style="float: left"
+                    >quantity<span style="color: red">*</span></label
+                  >
+                  <div class="col-sm-8" style="float: left">
+                    <input
+                      type="number"
+                      class="form-control form-control-sm"
+                      name="quantity"
+                      required
+                      [(ngModel)]="quantity"
+                    />
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <button type="button" class="btn btn-info btn-sm" (click)="add()">
+                    Add
+                  </button>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-12">
+                  <label class="col-sm-12 col-form-label" style="float: left"
+                    >Details Orders <span style="color: red">*</span></label
+                  >
+                  <div class="col-sm-12" style="float: left">
+                    <table class="table table-hover text-nowrap">
+                      <thead>
+                        <tr>
+                          <th>N°</th>
+                          <th>Name</th>
+                          <th>Quantity</th>
+                          <th>Unit Price</th>
+                          <th>Cost</th>
+                          <th>Accion</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          *ngFor="
+                            let details of detailOrders;
+                            let indexOfelement = index
+                          "
+                        >
+                          <td></td>
+                          <td>{{ details?.product?.name }}</td>
+                          <td>{{ details.quantity }}</td>
+                          <td>{{ details.unit_price }}</td>
+                          <td>{{ details.cost }}</td>
+                          <td>
+                            <a
+                              type="button"
+                              class="btn btn-danger rounded-circle text-white"
+                              (click)="eliminar(indexOfelement)"
+                            >
+                              <i
+                                class="fas fa-trash"
+                                style="font-size: 12px"
+                              ></i>
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-12">
+                  <label
+                    class="col-sm-6 col-form-label"
+                    style="text-align: right; float: left"
+                    >Subtotal<span style="color: red">*</span></label
+                  >
+                  <div class="col-sm-6" style="float: left">
+                    <div class="row">
+                      <div class="col-sm-12" style="float: left">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <label
+                              class="col-sm-6 col-form-label"
+                              style="text-align: right; float: left"
+                            ></label>
+                                <div class="col-sm-6" style="float: left">
+                                    <label for="">{{
+                                subTotal | number: "1.2-2"
+                              }}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+</div>
+</div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <label class="col-sm-6 col-form-label" style="text-align: right; float: left">Taxes<span style="color: red">*</span></label
+                  >
+                  <br />
+                  <div class="col-sm-6" style="float: left">
+                    <div class="row">
+                      <div class="col-sm-12" style="float: left">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <label
+                              class="col-sm-6 col-form-label"
+                              style="text-align: right; float: left"
+                              >Total City Tax
+                              <span style="color: red">*</span></label
+                            >
+                            <div class="col-sm-6" style="float: left">
+                              <label for=""
+                                >$ {{ subTotal * 0.1 | number: "1.2-2" }}</label
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-12" style="float: left">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <label
+                              class="col-sm-6 col-form-label"
+                              style="text-align: right; float: left"
+                              >Total Country Tax
+                              <span style="color: red">*</span></label
+                            >
+                            <div class="col-sm-6" style="float: left">
+                              <label for=""
+                                >$
+                                {{ subTotal * 0.055 | number: "1.2-2" }}</label
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-12" style="float: left">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <label
+                              class="col-sm-6 col-form-label"
+                              style="text-align: right; float: left"
+                              >Total State Tax<span style="color: red"
+                                >*</span
+                              ></label
+                            >
+                            <div class="col-sm-6" style="float: left">
+                              <label for=""
+                                >$
+                                {{ subTotal * 0.0924 | number: "1.2-2" }}</label
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-12" style="float: left">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <label
+                              class="col-sm-6 col-form-label"
+                              style="text-align: right; float: left"
+                              >Total Federal Tax
+                              <span style="color: red">*</span></label
+                            >
+                            <div class="col-sm-6" style="float: left">
+                              <label for=""
+                                >$
+                                {{ subTotal * 0.0249 | number: "1.2-2" }}</label
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-12">
+                  <label
+                    class="col-sm-6 col-form-label"
+                    style="text-align: right; float: left"
+                    >Total Taxes<span style="color: red">*</span></label
+                  >
+                  <div class="col-sm-6" style="float: left">
+                    <div class="row">
+                      <div class="col-sm-12" style="float: left">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <label
+                              class="col-sm-6 col-form-label"
+                              style="text-align: right; float: left"
+                            ></label>
+        <div class="col-sm-6" style="float: left">
+            <label for="">{{
+                                totalTax | number: "1.2-2"
+                              }}</label>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <label class="col-sm-6 col-form-label" style="text-align: right; float: left">Total<span style="color: red">*</span></label
+                  >
+                  <div class="col-sm-6" style="float: left">
+                    <div class="row">
+                      <div class="col-sm-12" style="float: left">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <label
+                              class="col-sm-6 col-form-label"
+                              style="text-align: right; float: left"
+                            ></label>
+        <div class="col-sm-6" style="float: left">
+            <label for="">{{
+                                total | number: "1.2-2"
+                              }}</label>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- /.card-footer -->
+</div>
+<!-- /.col -->
+</div>
+</div>
+<div class="modal-footer justify-content-between">
+    <button type="button" class="btn btn-danger" (click)="closeModal()">
+            Cancel
+          </button>
+    <button *ngIf="activar == '1'" type="submit" (click)="pendingOrder()" class="btn btn-success">
+            Save
+          </button>
+    <button *ngIf="activar == '0'" type="submit" (click)="completedOrder()" class="btn btn-success">
+            Comlete Order
+          </button>
+
+    <button *ngIf="activar == '0'" type="submit" (click)="rejectOrder()" class="btn btn-danger">
+            Reject Order
+          </button>
+</div>
+</form>
+</modal-content>
+<modal-footer> </modal-footer>
+</modal>
+</div>
+<!-- /.content -->

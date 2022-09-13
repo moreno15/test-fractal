@@ -1,0 +1,15 @@
+{
+
+    "/api/v1/*": {
+        "target": "https://dniruc.apisperu.com",
+        "secure": false,
+        "protocol": "https:",
+        "logLevel": "debug",
+        "changeOrigin": true
+    }
+
+
+
+
+
+}

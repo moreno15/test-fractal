@@ -1,0 +1,70 @@
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+    <div class="p-3">
+
+        <!-- Main Sidebar Container -->
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column">
+                <h5>Configuración</h5>
+                <li class="nav-item menu-is-opening menu-open" *ngIf="
+              tipo_user == 'ADMINISTRADOR' ||
+              tipo_user == 'MEDICO' ||
+              tipo_user == 'ADMISION'
+            ">
+                    <ul class="nav nav-treeview ml-2" style="display: block">
+                        <li class="nav-item" *ngIf="tipo_user == 'ADMINISTRADOR'">
+                            <a style="color:#fff" [routerLink]="['/pagina/tarifario']" class="nav-link" routerLinkActive="active">
+                                <i class="nav-icon fas fa-clipboard-list"></i>
+                                <p>Tarifario</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" *ngIf="tipo_user == 'ADMINISTRADOR'">
+                            <a style="color:#fff" [routerLink]="['/pagina/cie']" class="nav-link" routerLinkActive="active">
+                                <i class="nav-icon fas fa-atlas"></i>
+                                <p>CIE 10</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" *ngIf="
+                  tipo_user == 'MEDICO' ||
+                  tipo_user == 'ADMINISTRADOR' ||
+                  tipo_user == 'ADMISION'
+                ">
+                            <a style="color:#fff" [routerLink]="['/pagina/horario']" class="nav-link" routerLinkActive="active">
+                                <i class="nav-icon fas fa-atlas"></i>
+                                <p>Horario</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" *ngIf="tipo_user == 'ADMINISTRADOR'">
+                            <a style="color:#fff" [routerLink]="['/pagina/usuario']" class="nav-link" routerLinkActive="active">
+                                <i class="nav-icon fa fa-user"></i>
+                                <p>Usuario</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <h5>RRHH</h5>
+                <li class="nav-item is-opening menu-open" *ngIf="tipo_user == 'ADMINISTRADOR' ">
+
+                    <ul class="nav nav-treeview ml-2" style="display: block;">
+                        <li class="nav-item">
+                            <a style="color:#fff" [routerLink]="['/pagina/medico']" class="nav-link" routerLinkActive="active">
+                                <i class="nav-icon fas fa-circle"></i>
+                                <p>Médico</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color:#fff" [routerLink]="['/pagina/personal']" class="nav-link" routerLinkActive="active">
+                                <i class="nav-icon fas fa-circle"></i>
+                                <p>Personal</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</aside>
+<!-- /.control-sidebar -->
